@@ -1,0 +1,69 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Endless Engine Sample</title>
+	<meta name="description" content="Random Superhuman Generator (Endless Engine sample code)">
+	<meta name="author" content="Carter Edge">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://www.carteredge.dev/css/ee.css">
+
+	<script src="/endless-engine/sample/sampleRandomizer.js"></script>
+	<script src="/endless-engine/endless-engine.js"></script>
+</head>
+
+<body>
+	<div class="page">
+        <div class="randomizer">
+            <h1>Random Superhuman Generator</h1>
+            <div class="center row">
+                <button id="theEngine" onclick="engineClick()">
+                    <img alt="" id="engine-background" src="https://www.carteredge.dev/media/ee/background-0_25.png"/>
+                    <img alt="" id="chimney-1" src="https://www.carteredge.dev/media/ee/chimney-0_25.png"/>
+                    <img alt="" id="chimney-2" src="https://www.carteredge.dev/media/ee/chimney-0_25.png"/>
+                    <img alt="Endless Engine logo" id="engine" src="https://www.carteredge.dev/media/ee/engine-0_25.png"/>
+                    <img alt="" id="gear" src="https://www.carteredge.dev/media/ee/gear-0_25.png"/>
+                    <img alt="" id="gear-center" src="https://www.carteredge.dev/media/ee/gear-center-0_25.png"/>
+                    <img alt="" id="gear-shadow" src="https://www.carteredge.dev/media/ee/gear-shadow-0_25.png"/>
+                    <img alt="" id="infinity" src="https://www.carteredge.dev/media/ee/infinity-0_25.png"/>
+                    <img alt="Cloud dragon" id="cloud-1" src="https://www.carteredge.dev/media/ee/cloud-1-0_5.png"/>
+                    <img alt="Cloud castle" id="cloud-2" src="https://www.carteredge.dev/media/ee/cloud-2-0_5.png"/>
+                    <img alt="Cloud knight" id="cloud-3" src="https://www.carteredge.dev/media/ee/cloud-3-0_5.png"/>
+                </button>
+                <h2>
+                    An Endless Engine sample
+                </h2>
+            </div>
+            <ul id="randomizer-target">
+            </ul>
+            <button onclick="randomize()" autofocus>Randomize!</button>
+            <br><small>Push the button to generate a random character.</small>
+        </div>
+        <footer>
+            <div class="eelinks">
+                <p>
+                    <a class="eeimg" href="https://carteredge.dev/endless-engine/">
+                        <img alt="" src="../media/icons/ee-32x32.png"/>
+                        <!-- <img alt="" src="https://carteredge.dev/endless-engine/media/icons/ee-32x32.png"/> -->
+                    </a>
+                    <span>Powered by the <a href="https://carteredge.dev/endless-engine/">Endless Engine</a></span>
+                </p>
+                <p>
+                    <a class="eeimg" href="https://www.carteredge.dev">
+                        <img alt="Robot logo" src="https://www.carteredge.dev/media/io-32x32.png"/>
+                    </a>
+                    <span>from <a href="https://www.carteredge.dev">Carter Edge</a></span>
+                </p>
+            </div>
+            <div class="coffee-btn">
+                <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="carteredge" data-color="#5F7FFF" data-emoji="☕"  data-font="Lato" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
+            </div>
+        </footer>
+	</div>
+</body>
+
+</html>
