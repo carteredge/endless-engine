@@ -7,7 +7,14 @@ const data = {
     alias: [
         "Captain {subAlias}", "Professor {subAlias}", "The {subAlias}", "The Human {subAlias}"
     ],
-    allegiance: ["Good", "Evil"],
+    allegiance: [{
+        value: "Good",
+        p: 3
+    },
+    {
+        value: "Evil",
+        p: 2,
+    }],
     animal: [
         {
             value: "badger",
