@@ -1,0 +1,493 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>The Endless Engine</title>
+    <meta name="description" content="A data-driven, recursive randomization engine">
+    <meta name="keywords" content="software, engineer, code, html, javascript, randomization">
+    <meta name="author" content="Carter Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/endless-engine/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/endless-engine/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/endless-engine/favicon-16x16.png">
+    <link rel="manifest" href="/endless-engine/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/endless-engine/css/style.css">
+
+    <script src="/endless-engine/js/script.js"></script>
+    <script src="endless-engine.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <button id="theEngine" onclick="engineClick()">
+                    <img alt="" id="chimney-1" src="/endless-engine/media/chimney-0_5.png">
+                    <img alt="" id="chimney-2" src="/endless-engine/media/chimney-0_5.png">
+                    <img alt="Endless Engine logo" id="engine" src="/endless-engine/media/engine-0_5.png">
+                    <img alt="" id="gear" src="/endless-engine/media/gear-0_5.png">
+                    <img alt="" id="gear-center" src="/endless-engine/media/gear-center-0_5.png">
+                    <div id="gear-shadow-container">
+                        <img alt="" id="gear-shadow" src="/endless-engine/media/gear-shadow-0_5.png">
+                        &nbsp;
+                    </div>
+                    <img alt="" id="infinity" src="/endless-engine/media/infinity-0_5.png">
+                    <img alt="Cloud dragon" id="cloud-1" src="/endless-engine/media/cloud-1-0_5.png">
+                    <img alt="Cloud castle" id="cloud-2" src="/endless-engine/media/cloud-2-0_5.png">
+                    <img alt="Cloud knight" id="cloud-3" src="/endless-engine/media/cloud-3-0_5.png">
+                </button>
+            </div>
+            <div>
+                <h1>
+                    The Endless Engine
+                </h1>
+                <button id="ee-button" onclick="randomizer.randomize(['~'], 'ee-target')">
+                    <ul id="ee-target"></ul>
+                </button>
+            </div>
+        </div>
+    </header>
+    <nav class="bar">
+        <button
+            aria-controls="nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation menu"
+            class="hide-when-big"
+            id="nav-button"
+            onclick="toggleMenu('nav')">
+            <img src="/endless-engine/media/menu.svg">
+        </button>
+        <ul
+            class="hide-when-small"
+            id="nav">
+            <li>
+                <a href="/">About</a>
+            </li>
+            <li>
+                <a href="/randomizer.html">Using the Randomizer</a>
+            </li>
+            <li class="active">
+                <span class="a">Constructing the Data</span>
+            </li>
+        </ul>
+    </nav>
+    <div class="toc-anchor">
+        <div class="toc-box">
+            <nav class="toc">
+                <h2>Contents</h2>
+                <ul>
+                    <li>
+                        <a href="#basic-data">Basic Data</a>
+                    </li>
+                    <li>
+                        <a href="#templates">Template Strings</a>
+                    </li>
+                    <li>
+                        <a href="#conditional">Conditional Randomization</a>
+                        <ul>
+                            <li>
+                                <a href="#by-fields">Randomization by Other Result</a>
+                            </li>
+                            <li>
+                                <a href="#by-range">Randomization by Numeric Range</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#weighted">Weighted Randomization</a>
+                    </li>
+                    <li>
+                        <a href="#int">Integer Randomization</a>
+                        <ul>
+                            <li>
+                                <a href="#linear">Linear Distribution</a>
+                            </li>
+                            <li>
+                                <a href="#normal">Normal Distribution</a>
+                            </li>
+                            <li>
+                                <a href="#exp">Exponential Distribution</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#format">The <i>format</i> Property</a>
+                    </li>
+                    <li>
+                        <a href="#next">What's Next?</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <section>
+        <div>
+            <h2>Creating Your Own Endless Engine Data</h2>
+
+            <a name="basic-data"><h3>Basic Data</h3></a>
+
+            <p>
+                The randomizer uses a basic JavaScript object structure. For example, if you wanted to generate a random name for a fantasy RPG character, you could use:
+            </p>
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    name: ["Adelbert", "Beatrice", "Celestine", "Duncan"]
+}
+
+var results = new Randomizer(myData, ["name"]).randomize();</pre>
+                </code>
+            </div>
+            <p>
+                If an array of values is provided for a field, a random element of that array will be returned (and evaluated recursively in one of the many ways described below).
+            </p>
+
+            <a name="templates"><h3>Template Strings</h3></a>
+
+            <p>
+                Admittedly, this isn't very interesting, either as a randomization engine or as a name. Suppose, then, you wanted to randomize both the first name and the last name separately, and combine the results. In that case, you can have the <code>name</code> field return a template that references other fields:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    name: "{firstName} {lastName}",
+    firstName: ["Adelbert", "Beatrice", "Celestine", "Duncan"],
+    lastName: ["Beetleglen", "Candleroot", "Duskdale", "Foxhollow"],
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                After evaluating the <code>name</code> field, the randomizer finds template calls for <code>firstName</code> and <code>lastName</code>, so it then randomizes those and inserts them into the <code>name</code> template.
+            </p>
+
+            <a name="conditional"><h3>Conditional Randomization</h3></a>
+
+            <a name="by-fields"><h4>Randomization by Other Result</h4></a>
+
+            <p>
+                Suppose you had a random character profession, as provided below:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    profession: ["hunter", "knight", "mage", "priest"],
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                Obviously, you would want to equip your characters appropriately for their profession. A hunter would hardly be able to sneak up on prey in plate armor, and a knight would probably be a poor choice to give a wizard's staff. Here, then, you would want to use conditional probabilities. Instead of returning a string as a result for our <code>"equipment"</code> field, you would instead return an object with the single key <code>"by__profession"</code>, which itself contains another object with keys for each of the possible professions. For example:
+            </p>
+    
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    profession: ["hunter", "knight", "mage", "priest"],
+    weapon: {
+        by__profession: {
+            hunter: ["bow", "crossbow", "dagger"],
+            knight: ["sword", "flail", "axe"],
+            mage: ["staff", "wand"],
+            priest: ["staff", "wand"],
+        }
+    }
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                What's more, since the <code>mage</code> and <code>priest</code> both have the same options in this example, you could simplify them with a <code>default</code> field in place of both:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    profession: ["hunter", "knight", "mage", "priest"],
+    weapon: {
+        by__profession: {
+            hunter: ["bow", "crossbow", "dagger"],
+            knight: ["sword", "flail", "axe"],
+            default: ["staff", "wand"],
+        }
+    }
+}
+</pre>
+                </code>
+            </div>
+
+            <a name="by-range"><h4>Randomization by Numeric Range</h4></a>
+
+            <p>
+                Suppose next you wanted to add another profession, the thief, who can wield the same weapons as the hunter. Since you cannot have the key <code>default</code> twice, there is yet another way to handle grouping the field names. If you put two underscores between the names of fields, you can list as many as you want:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    profession: ["hunter", "knight", "mage", "priest", "rogue"],
+    weapon: {
+        by__profession: {
+            hunter__rogue: ["bow", "crossbow", "dagger"],
+            knight: ["sword", "flail", "axe"],
+            mage__priest: ["staff", "wand"],
+        }
+    }
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                You can also condition your response based on a numerical range with the object key that looks like <code>by__myField__range</code>. The number range, then, uses an object key such as <code>_1__3</code> to denote the range from 1 through 3. (The leading underscore is only there because JavaScript doesn't like starting any non-numerical key with a number and could be any single, non-numerical character, such as <code>r1__3</code>. If you would rather it start with a numerical character, you can put the key in quotes to make sure JavaScript knows it's a string, e.g. <code>"1__3"</code>.
+            </p>
+            <p>
+                Suppose, then, you wanted to scale the equipment based on the character's level, which is an <a href="#linear">integer range</a> from 1 to 10. If, then, you wanted characters to have basic equipment from levels 1 through 5 and <code>magic</code> equipment from levels 6 through 10, then you would add a <code>by__level__range</code>, as follows:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    profession: ["hunter", "knight", "mage", "priest", "rogue"],
+    weapon: {
+        by__profession: {
+            hunter__rogue: {
+                by__level__range: {
+                    _1__5: ["bow", "crossbow", "dagger"],
+                    _6__10: [
+                        "bow of {magic}",
+                        "crossbow of {magic}",
+                        "dagger of {magic}"
+                    ]
+                }
+            },
+            knight: {
+                by__level__range: {
+                    _1__5: ["sword", "flail", "axe"],
+                    _6__10: [
+                        "sword of {magic}",
+                        "flail of {magic}",
+                        "axe of {magic}"
+                    ]
+                }
+            },
+            mage__priest: {
+                by__level__range: {
+                    _1__5: ["staff", "wand"],
+                    _6__10: [
+                        "staff of {magic}",
+                        "wand of {magic}"
+                    ]
+                }
+            }
+        }
+    },
+    magic: ["the Storm-wood", "the Silver-moon", "Whisp-fire"]
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                In this example of the <code>weapon</code> data, we demonstrate several capabilities of the Endless Engine combined: Conditional randomization based on string value and numeric value as well as nested randomization templates. The many randomization methods of the Endless Engine are made specifically that they can be applied in any combination so that rich results with texture and depth can be created from your data.
+            </p>
+
+            <a name="weighted"><h3>Weighted Randomization</h3></a>
+
+            <p>
+                Suppose, next, you decide that magic is difficult to master, and so mages and priests are less common than hunters and knights. This can easily be accomplished with weighted probability values by splitting each result object into a <code>value</code> which contains the desired return value and the probability of that value, given as <code>p</code>:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    profession: [
+        {
+            value: "hunter",
+            p: 3
+        },
+        {
+            value: "knight",
+            p: 2
+        },
+        {
+            value: "mage",
+            p: 1
+         },
+         {
+             value: "priest",
+             p: 1
+          },
+          {
+              value: "rogue"
+              p: 3
+          }
+    ],
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                Here, the hunter is three times as likely to be returned as the mage. The knight is two times as likely as the mage. Moreover, since the probabilities add to 10, the mage has a 30% chance of being returned here. The numbers can sum to anything you want, though — you can make them add to 100 so that they read as percentages, make them small enough that they all sum to 1, or just use whatever numbers you want so they sum to an arbitrary value of 42. The Endless Engine will scale the numbers so that the results are the same so long as the proportions of each number of the total are the same.
+            </p>
+
+            <a name="int"><h3>Integer Randomization: Linear, Normal, and Exponential</h3></a>
+
+            <p>
+                Above, we gave an example of conditioning a character's equipment based on the character's level. How, then, would you randomize the level? There are three ways you can randomize an integer with the Endless Engine:
+            </p>
+                
+            <a name="linear"><h4>Linear Distribution</h4></a>
+            
+            <p>
+                Linear distribution gives an even chance of any number in from the provided <code>min</code> through the <code>max</code> provided in that order in an array with the key <code>range</code>, for instance:
+            </p>
+
+                <div class="code-block">
+                    <code>
+<pre>
+level: {
+    range: [1, 10]
+}
+</pre>
+                    </code>
+                </div>
+
+            <a name="normal"><h4>Normal Distribution</h4></a>
+
+            <p>
+                The normal distribution biases the result by making values closer to the middle of the range more likely than values at the extremes, producing a bell curve. For instance, if you used:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+level: {
+    normal_range: [1, 10]
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                ...you would see values of <code>5</code> and <code>6</code> much more often than values of <code>1</code> or <code>10</code>. Although this seems an odd choice for character level, it could be useful for deciding basic character statistics (like Strength, Dexterity, etc. in D&D and related games) that tend toward an average but could, with less likelihood, fall above or below that value.
+            </p>
+
+            <aside>
+                <strong>Behind the Scenes:</strong> The Endless Engine uses the <a href="https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform">Box-Muller transform</a> to approximate a normal distribution from JavaScript's linear <code>Math.random()</code> and only returns values in the given range (inclusive of the <code>max</code> and <code>min</code>). It gives a mean at the midpoint between the <code>max</code> and <code>min</code> values and a standard deviation of the difference between the <code>max</code> and <code>min</code> divided by 6, meaning that approximately 68% of the results will fall in the middle third of the range while only about 2% of the results will fall in each of the top 1/6th or the bottom 1/6th.
+            </aside>
+
+            <a name="exp"><h4>Exponential Distribution</h4></a>
+
+            <p>
+                The exponential distribution will give a ditribution where the probability (and thus the frequency of results) is one of exponential growth or decay. In fact, the exponential distribution is the only one where the order the numbers appear in the array matters, for the first number given will always be the more likely end of the result range. For instance, if you put: 
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+level: {
+    exp_range: [1, 10, 4]
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                There will be a much higher probability of <code>level</code> returning 1 than 10, wherease if you put:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+level: {
+    exp_range: [10, 1, 4]
+}
+</pre>
+                </code>
+            </div>
+
+            <p>
+                There will instead be a much higher probability of returning a 10 than a 1.
+            </p>
+
+            <p>
+                The third number provided here is a weighting variable, where higher values will create a more drastic exponential distribution with much more common results of the first number and rarer results of the second, while a lower weight will make the exponential distribution more even.
+            </p>
+
+            <aside>
+                <strong>Behind the Scenes:</strong> Given the input form <code>exp_range: [A, B, k]</code>, the Endless Engine uses a slight variation on the equation:
+                <div class="math-block">
+                <div class="frac">
+                    <div class="num">(B - A)</div>
+                    <div class="den">(1 - 2 <sup>-k</sup>) (2 <sup>(k - 1)</sup>)</div>
+                </div> &times; (2 <sup>k &times; Math.random() - 1</sup> - 0.5) + A
+                </div>
+            </aside>
+
+            <a name="format"><h3>The <code>format</code> Property</h3></a>
+            <p>
+                The format property is provided as a tool for expanded formatting options. Currently, the only formatting option the Endless Engine uses is allowing multiple elements to be returned for a given Randomizer field. For instance, if you wanted to not only return the name of a character, but also a short summary below it, you could use:
+            </p>
+
+            <div class="code-block">
+                <code>
+<pre>
+const myData = {
+    name: {
+        format: ["{firstName} {lastName}", "{summary}"]
+    },
+    firstName: ["Adelbert", "Beatrice", "Celestine", "Duncan"],
+    lastName: ["Beetleglen", "Candleroot", "Duskdale", "Foxhollow"],
+    summary: [
+        "Captain of the Watch",
+        "Champion of the Downtrodden",
+        "Keeper of Secrets",
+        "Wanted for Many Crimes",
+    ]
+}
+</pre>
+                </code>
+            </div>
+
+            <a name="next"><h3>What's Next?</h3></a>
+            <p>
+                <strong>
+                    <a href="/endless-engine/data.html">Using the Endless Engine from Your Own Code</a>
+                </strong><br>
+                Learn how to call the <code>Randomizer</code> class to incorporate the Endless Engine however you want!
+            </p>
+            <p>
+                <strong>
+                    <a href="/endless-engine/sample">Try the Endless Engine Sample!</a>
+                </strong><br>
+                See the Endless Engine in action!
+            </p>
+        </div>
+    </section>
+    <footer>
+		<div class="site-link"> <img alt="Robot logo" src="https://www.carteredge.dev/media/io-32x32.png"><span>Made by <a href="https://www.carteredge.dev">Carter Edge</a></span></div>
+        <div class="coffee-btn">
+            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="carteredge" data-color="#FFDD00" data-emoji="☕"  data-font="Lato" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+        </div>
+        <small>Robot logo &copy; 2021 Carter Edge. All other content is under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a> unless otherwise noted.</small>
+    </footer>
+</body>
+</html>

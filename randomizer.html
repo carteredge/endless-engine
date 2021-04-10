@@ -1,0 +1,229 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>The Endless Engine</title>
+    <meta name="description" content="A data-driven, recursive randomization engine">
+    <meta name="keywords" content="software, engineer, code, html, javascript, randomization">
+    <meta name="author" content="Carter Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/endless-engine/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/endless-engine/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/endless-engine/favicon-16x16.png">
+    <link rel="manifest" href="/endless-engine/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/endless-engine/css/style.css">
+
+    <script src="/endless-engine/js/script.js"></script>
+    <script src="endless-engine.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <button id="theEngine" onclick="engineClick()">
+                    <img alt="" id="chimney-1" src="/endless-engine/media/chimney-0_5.png">
+                    <img alt="" id="chimney-2" src="/endless-engine/media/chimney-0_5.png">
+                    <img alt="Endless Engine logo" id="engine" src="/endless-engine/media/engine-0_5.png">
+                    <img alt="" id="gear" src="/endless-engine/media/gear-0_5.png">
+                    <img alt="" id="gear-center" src="/endless-engine/media/gear-center-0_5.png">
+                    <div id="gear-shadow-container">
+                        <img alt="" id="gear-shadow" src="/endless-engine/media/gear-shadow-0_5.png">
+                        &nbsp;
+                    </div>
+                    <img alt="" id="infinity" src="/endless-engine/media/infinity-0_5.png">
+                    <img alt="Cloud dragon" id="cloud-1" src="/endless-engine/media/cloud-1-0_5.png">
+                    <img alt="Cloud castle" id="cloud-2" src="/endless-engine/media/cloud-2-0_5.png">
+                    <img alt="Cloud knight" id="cloud-3" src="/endless-engine/media/cloud-3-0_5.png">
+                </button>
+            </div>
+            <div>
+                <h1>
+                    The Endless Engine
+                </h1>
+                <button id="ee-button" onclick="randomizer.randomize(['~'], 'ee-target')">
+                    <ul id="ee-target"></ul>
+                </button>
+            </div>
+        </div>
+    </header>
+    <nav class="bar">
+        <button
+            aria-controls="nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation menu"
+            class="hide-when-big"
+            id="nav-button"
+            onclick="toggleMenu('nav')">
+            <img src="/endless-engine/media/menu.svg">
+        </button>
+        <ul
+            class="hide-when-small"
+            id="nav">
+            <li>
+                <a href="/">About</a>
+            </li>
+            <li class="active">
+                <span class="a">Using the Randomizer</span>
+            </li>
+            <li>
+                <a href="/data.html">Constructing the Data</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="toc-anchor">
+        <div class="toc-box">
+            <nav class="toc">
+                <h2>Contents</h2>
+                <ul>
+                    <li>
+                        <a href="#init">Initialization</a>
+                    </li>
+                    <li>
+                        <a href="#randomizer">Calling the Randomizer</a>
+                    </li>
+                    <li>
+                        <a href="#next">What's Next?</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <section>
+        <div>
+            <h2>Using the Endless Engine in Your Own Code: The <code>Randomizer</code> Class</h2>
+            <a name="init"><h3>Initialization</h3></a>
+            <p>
+                To use the Endless Engine in your own Code, you need to first include the Endless Engine JS. Currently, the easiest way to do so is to download the JavaScript to your project folder and add <code>&lt;script src="endless-engine.js"&gt;&lt;/script&gt;</code> to your HTML file. <!--(In the relatively near future, I hope to add Endless Engine CDN and NPM distributions.)-->
+                Once this is accomplished, you can call the <code>Randomizer</code> class from your code:
+            </p>
+            <div class="code-block">
+                <code>
+                    var myRandomizer = new Randomizer(myRandomizerData, myRandomizerFields);
+                </code>
+            </div>
+            <p>
+                The Randomizer accepts (but does not require at creation) the initial <code>data</code> and <code>fields</code>. The <code>data</code> should be provided as a Javascript object (described <a href="#data">below</a>), and the <code>fields</code> should be an array of strings, each of which is the name of a field you want randomized and added to the HTML document.
+            </p>
+            <p>
+                If you do not add <code>data</code> and <code>fields</code> at initialization, you can always set them at a later point (or change them), for example:
+            </p>
+            <div class="code-block">
+                <code>
+                    myRandomizer.data = myRandomizerData;
+                </code>
+            </div>
+            <p>
+                ... or ...
+            </p>
+            <div class="code-block">
+                <code>
+                    myRandomizer.fields = ["myFirstField", "mySecondField"];
+                </code>
+            </div>
+            <p>
+                You can also provide the Randomizer <code>fields</code> when you call the <code>randomize</code> function (described in the next session). Additionally, if you don't provide <code>fields</code> for the Randomizer, it will default to randomizing each top-level key of your <code>data</code> object.
+            </p>
+
+            <a name="randomizer"><h3>Calling the Randomizer</h3></a>
+            <p>
+                Once you have provided your <code>data</code> and <code>fields</code> to the Randomizer, you can call the <code>randomize</code> function. The function accepts the fields you want to randomize as the first argument. Additionally, if you provide the <code>id</code> of an element in the second argument, it will replace the children of that element with the elements generated from the results of the randomization.
+            </p>
+            <p>
+                For instance, if you call:
+            </p>
+            <div class="code-block">
+                <code>
+                    myRandomizer.randomize(myRandomizerFields, "outputTargetID");
+                </code>
+            </div>
+            <p>
+                The output HTML elements are by default of the form:
+            </p>
+            <div class="code-block">
+                <pre>
+                    <code>
+&lt;li class="row"&gt;
+    &lt;strong&gt;myFieldName&lt;/strong&gt;
+    &lt;div&gt;Randomizer result for myFieldName&lt;/div&gt;
+&lt;/li&gt;
+                    </code>
+                </pre>
+            </div>
+
+            <p><strong>NOTE:</strong> No element is generated for any field that randomizes to an empty value, e.g. <code>""</code>.</p>
+
+            <p>
+                If you provided <code>fields</code> to the Randomizer during initialization or at another point, you can pass any value with a truthiness of <code>false</code> to the Randomizer to use the existing fields, such as:
+            </p>
+
+            <div class="code-block">
+                <code>
+                    myRandomizer.randomize(0, "outputTargetID");
+                </code>
+            </div>
+
+            <p>
+                Of course, if you don't need to pass the <code>id</code> of the target element, you can instead simply call:
+            </p>
+
+            <div class="code-block">
+                <code>
+                    myRandomizer.randomize();
+                </code>
+            </div>
+
+            <p>
+                The returned value from the randomizer takes the form of an object with each field containing a <code>text</code> and a <code>value</code> attribute. Often, the <code>value</code> and <code>text</code> are the same, but not always. For instance, in the case of template strings, the <code>value</code> will be the initial template and the <code>text</code> will be the result after the templated fields have also been randomized. (For more on randomization templates, see <a href="#data">the section on Randomizer data</a>.
+            </p>
+            <p>
+                The returned object could look something like this:
+            </p>
+            <div class="code-block">
+                <pre>
+                    <code>
+{
+    myField: {
+        text: "Some randomized value",
+        value: "Some randomized value"
+    },
+    myTemplateField: {
+        text: "A template that reference something else.",
+        value: "A template that references {myOtherField}"
+    },
+    myOtherField: {
+        text: "something else",
+        value: "something else"
+    },
+}
+                    </code>
+                </pre>
+            </div>
+
+            <a name="next"><h3>What's Next?</h3></a>
+            <p>
+                <strong>
+                    <a href="/endless-engine/data.html">Creating Your Own Endless Engine Data</a>
+                </strong><br>
+                If you just want to start playing with randomizing your data, you can start by replacing the sampleData in the sample code using instructions here!
+            </p>
+            <p>
+                <strong>
+                    <a href="/endless-engine/sample">Try the Endless Engine Sample!</a>
+                </strong><br>
+                See the Endless Engine in action!
+            </p>
+        </div>
+    </section>
+    <footer>
+		<div class="site-link"> <img alt="Robot logo" src="https://www.carteredge.dev/media/io-32x32.png"><span>Made by <a href="https://www.carteredge.dev">Carter Edge</a></span></div>
+        <div class="coffee-btn">
+            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="carteredge" data-color="#FFDD00" data-emoji="☕"  data-font="Lato" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+        </div>
+        <small>Robot logo &copy; 2021 Carter Edge. All other content is under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a> unless otherwise noted.</small>
+    </footer>
+</body>
+</html>

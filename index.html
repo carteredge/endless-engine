@@ -1,62 +1,123 @@
 <!doctype html>
 
 <html lang="en">
-
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Endless Engine Sample</title>
-	<meta name="description" content="Random Superhuman Generator (Endless Engine sample code)">
-	<meta name="author" content="Carter Edge">
+    <meta charset="utf-8">
 
-    <!-- <link rel="stylesheet" href="style.css"> -->
-    <!-- <link rel="stylesheet" href="https://www.carteredge.dev/css/styles.css"> -->
-    <link rel="stylesheet" href="https://www.carteredge.dev/css/ee.css">
+    <title>The Endless Engine</title>
+    <meta name="description" content="A data-driven, recursive randomization engine">
+    <meta name="keywords" content="software, engineer, code, html, javascript, randomization">
+    <meta name="author" content="Carter Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/endless-engine/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/endless-engine/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/endless-engine/favicon-16x16.png">
+    <link rel="manifest" href="/endless-engine/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="/endless-engine/css/style.css">
 
-	<!-- <script src="/endless-engine/sample/sampleRandomizer.js"></script>
-	<script src="/endless-engine/endless-engine.js"></script> -->
-    <script src="../endless-engine.js"></script>
-    <script src="./sampleRandomizer.js"></script>
+    <script src="/endless-engine/js/script.js"></script>
+    <script src="endless-engine.js"></script>
 </head>
 
 <body>
-	<div class="page">
-        <div class="randomizer">
-            <h1>The Endless Engine</h1>
-            <div class="center row">
-                <!-- <button id="theEngine" onclick="engineClick()">
-                    <img alt="" id="engine-background" src="https://www.carteredge.dev/media/ee/background-0_25.png"/>
-                    <img alt="" id="chimney-1" src="https://www.carteredge.dev/media/ee/chimney-0_25.png"/>
-                    <img alt="" id="chimney-2" src="https://www.carteredge.dev/media/ee/chimney-0_25.png"/>
-                    <img alt="Endless Engine logo" id="engine" src="https://www.carteredge.dev/media/ee/engine-0_25.png"/>
-                    <img alt="" id="gear" src="https://www.carteredge.dev/media/ee/gear-0_25.png"/>
-                    <img alt="" id="gear-center" src="https://www.carteredge.dev/media/ee/gear-center-0_25.png"/>
-                    <img alt="" id="gear-shadow" src="https://www.carteredge.dev/media/ee/gear-shadow-0_25.png"/>
-                    <img alt="" id="infinity" src="https://www.carteredge.dev/media/ee/infinity-0_25.png"/>
-                    <img alt="Cloud dragon" id="cloud-1" src="https://www.carteredge.dev/media/ee/cloud-1-0_5.png"/>
-                    <img alt="Cloud castle" id="cloud-2" src="https://www.carteredge.dev/media/ee/cloud-2-0_5.png"/>
-                    <img alt="Cloud knight" id="cloud-3" src="https://www.carteredge.dev/media/ee/cloud-3-0_5.png"/>
-                </button> -->
-                <h2>
-                    A recursive, data-driven randomization engine
-                </h2>
+    <header>
+        <div class="header-content">
+            <div>
+                <button id="theEngine" onclick="engineClick()">
+                    <img alt="" id="chimney-1" src="/endless-engine/media/chimney-0_5.png">
+                    <img alt="" id="chimney-2" src="/endless-engine/media/chimney-0_5.png">
+                    <img alt="Endless Engine logo" id="engine" src="/endless-engine/media/engine-0_5.png">
+                    <img alt="" id="gear" src="/endless-engine/media/gear-0_5.png">
+                    <img alt="" id="gear-center" src="/endless-engine/media/gear-center-0_5.png">
+                    <div id="gear-shadow-container">
+                        <img alt="" id="gear-shadow" src="/endless-engine/media/gear-shadow-0_5.png">
+                        &nbsp;
+                    </div>
+                    <img alt="" id="infinity" src="/endless-engine/media/infinity-0_5.png">
+                    <img alt="Cloud dragon" id="cloud-1" src="/endless-engine/media/cloud-1-0_5.png">
+                    <img alt="Cloud castle" id="cloud-2" src="/endless-engine/media/cloud-2-0_5.png">
+                    <img alt="Cloud knight" id="cloud-3" src="/endless-engine/media/cloud-3-0_5.png">
+                </button>
             </div>
-            <p>Documentation coming shortly. Until then, you can try out the <a href="/endless-engine/sample">Sample Superhuman Generator.</a></p>
+            <div>
+                <h1>
+                    The Endless Engine
+                </h1>
+                <button id="ee-button" onclick="randomizer.randomize(['~'], 'ee-target')">
+                    <ul id="ee-target"></ul>
+                </button>
+            </div>
         </div>
-        <footer>
-            <div class="eelinks">
-                <p>
-                    <a class="eeimg" href="https://www.carteredge.dev">
-                        <img alt="Robot logo" src="https://www.carteredge.dev/media/io-32x32.png"/>
-                    </a>
-                    <span>from <a href="https://www.carteredge.dev">Carter Edge</a></span>
-                </p>
-            </div>
-            <div class="coffee-btn">
-                <!-- <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="carteredge" data-color="#5F7FFF" data-emoji="☕"  data-font="Lato" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script> -->
-            </div>
-        </footer>
-	</div>
-</body>
+    </header>
+    <nav class="bar">
+        <button
+            aria-controls="nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation menu"
+            class="hide-when-big"
+            id="nav-button"
+            onclick="toggleMenu('nav')">
+            <img src="/endless-engine/media/menu.svg">
+        </button>
+        <ul
+            class="hide-when-small"
+            id="nav">
+            <li class="active">
+                <span class="a">About</span>
+            </li>
+            <li>
+                <a href="/randomizer.html">Using the Randomizer</a>
+            </li>
+            <li>
+                <a href="/data.html">Constructing the Data</a>
+            </li>
+        </ul>
+    </nav>
+    <section>
+        <div>
+            <h2>About</h2>
+            <p>The Endless Engine is a data-driven, recursive, randomization engine which supports conditional randomization, linear, normal, and exponential distributions, and more!</p>
 
+            <h3><a href="/endless-engine/sample">Try it out!</a></h3>
+            <hr>
+
+            <h3>Why Vanilla JavaScript?</h3>
+            <p>
+                When I started working on the project that would eventually become the Endless Engine, I knew I would want the data to be flexible enough that I could adapt it to various RPG systems and settings. Because of this, I thought it should be easy enough for even users with minimal technical skills to swap in their own data sets. Keeping the Endless Engine as vanilla JavaScript and not relying on external dependencies, hosting, or running a local server like Node.js meant that other users could download the <a href="https://github.com/carteredge/endless-engine/tree/main/sample">sample</a>, swap in their own data, and run it locally. This also means users can create their own randomizers for data from licensed information as long as they don't redistribute it.
+            </p>
+            <hr>
+            <h2>Using the Endless Engine</h2>
+
+            <h3>The Basics</h3>
+            <p>
+                To get the Endless Engine running, you need a little knowledge of HTML and JS data structures, but no more. In fact, everything you need to get started is in the sample code. You can <a href="/endless-engine/sample">try the sample out here</a>, or you can download <a href="https://github.com/carteredge/endless-engine/tree/main/sample">the sample code from the Endless Engine github</a>.
+            </p>
+
+            <h3>
+                What's Next?
+            </h3>
+            <p>
+                <strong>
+                    <a href="/endless-engine/randomzer.html">Using the Endless Engine In Your Own Code: The <code>Randomizer</code> Class</a>
+                </strong><br>
+                If you want to work the Endless Engine in with your own JavaScript, start here!
+            </p>
+            <p>
+                <strong>
+                    <a href="/endless-engine/data.html">Creating Your Own Endless Engine Data</a>
+                </strong><br>
+                If you just want to start playing with randomizing your data, you can start by replacing the sampleData in the sample code using instructions here!
+            </p>
+            
+        </div>
+    </section>
+    <footer>
+		<div class="site-link"> <img alt="Robot logo" src="https://www.carteredge.dev/media/io-32x32.png"><span>Made by <a href="https://www.carteredge.dev">Carter Edge</a></span></div>
+        <div class="coffee-btn">
+            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="carteredge" data-color="#FFDD00" data-emoji="☕"  data-font="Lato" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+        </div>
+        <small>Robot logo &copy; 2021 Carter Edge. All other content is under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a> unless otherwise noted.</small>
+    </footer>
+</body>
 </html>
