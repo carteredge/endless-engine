@@ -91,7 +91,10 @@ class Randomizer {
             }
         if (targetID !== undefined)
             this.generateElements(targetID);
-        return this.dataOut;
+        const out = {};
+        for (let field of fields)
+            out[field] = this.dataOut[field]?.text || this.dataOut[field].value || this.dataOut[field];
+        return out;
     }
 
 }
@@ -111,7 +114,8 @@ class RandomizerField {
             else if(/^[a-z]/.test(text))
                 text = text.toLowerCase();
         }
-        return text;
+        this.text = text;
+        return this.text;
     }
 
     constructor(field, data, dataOut) {
@@ -145,6 +149,7 @@ class RandomizerField {
             }
         if (typeof item.value !== "string") {
             Object.assign(item, item.value);
+            item.text = this.formatValue(item.value);
         }
         return item;
     }

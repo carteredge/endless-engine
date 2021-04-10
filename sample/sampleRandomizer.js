@@ -1,6 +1,6 @@
 /* Randomizer Data */
 
-const fields = ["name", "alias", "superpower", "originOfPowers", "powerLevel", "allegiance",];
+const fields = ["name", "profession", "level", "weapon", "armor"];
 
 /* Randomizer call */
 

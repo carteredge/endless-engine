@@ -1,78 +1,116 @@
 const data = {
-    address: "{houseNo} {streetName} {streetType}",
-    alias: [
-        "Captain {subAlias}", "Professor {subAlias}", "The {subAlias}", "The Human {subAlias}"
-    ],
-    allegiance: [{
-        value: "Good",
-        p: 3
-    },
-    {
-        value: "Evil",
-        p: 2,
-    }],
-    animal: [
-        {
-            value: "badger",
-            action: "Bitten",
-        },
-        {
-            value: "bee",
-            action: "Stung",
-        },
-        {
-            value: "cat",
-            action: "Scratched",
-        },
-        {
-            value: "moose",
-            action: "Bitten",  // Mind you, moose bites can be pretty nasty..
-        },
-    ],
-    firstName: [
-        "Maria", "José", "Mohammed", "Wei", "Ahmed", "Yan",
-        "Ali", "John", "David", "Li", "Abdul", "Ana",
-    ],
-    houseNo: {range: [1, 999]},
-    lastName: [
-        "Wang", "Zhang", "Kumar", "Garcia", "Hernandez", "Smith",
-    ],
-    name: {
-        format: ["{firstName} {lastName}", "{address}"]
-    },
-    ordinal: {
-        by__ordinalNo__range: {
-            _1: "1st",
-            _2: "2nd",
-            _3: "3rd",
-            _4__20: "{ordinalNo}th",
+    armor: {
+        by__profType: {
+            Hunter__Thief: "Leather Armor",
+            Knight: "Platemail",
+            Mage__Priest: "Robes"
         }
     },
-    ordinalNo: {range: [1, 20]},
-    originOfPowers: [
-        "Alien", "Cybernetics", "{animal__action} by a radioactive {animal}",
-        "Magic", "Mutation", "Power suit", "Super serum",
-    ],
-    powerLevel: {exp_range: [1, 10, 5]},
-    streetName: ["{ordinal}", "East", "Elm", "Main", "North", "Oak", "South", "West",],
-    streetType: ["Ave.", "Dr.", "Ln.", "St.",],
-    subAlias: {
-        by__superpower: {
-            fireManipulation: ["Cinder", "Flame", "Scorch"],
-            flight: ["Hawk", "Jet", "Skyshot"],
-            iceManipulation: ["Blizzard", "Frost", "Winter"],
-            invisibility: ["Blink", "Shadow", "Shinobi", "Specter",],
-            psychicAbilities: ["Cosmos", "Oracle", "Mastermind"],
-            superSpeed: ["Bullet", "Dash", "Lightspeed", "Warp"],
-            superStrength: ["Behemoth", "Brute", "Crusher"],
-            teleportation: ["Portal", "Void"],
-            weatherManipulation: ["Bolt", "Stormcloud", "Thunder",],
-        },
+    firstName: ["Adelbert", "Beatrice", "Celestine", "Duncan"],
+    profession: "{specialty} {profType}",
+    lastName: ["Beetleglen", "Candleroot", "Duskdale", "Foxhollow"],
+    level: {
+        exp_range: [1, 10, 4]
     },
-    superpower: [
-        "fireManipulation", "flight", "iceManipulation", "invisibility",
-        "psychicAbilities", "superSpeed", "superStrength", "teleportation",
-        "weatherManipulation",
-    ],
+    magic: ["the Storm-wood", "the Silver-moon", "Whisp-fire"],
+    name: {
+        format: ["{firstName} {lastName}", "{title}"]
+    },
+    profType: [
+        {
+            value: "Hunter",
+            p: 3
+        },
+        {
+            value: "Knight",
+            p: 2
+        },
+        {
+            value: "Mage",
+            p: 1
+        },
+        {
+            value: "Priest",
+            p: 1
+        },
+        {
+            value: "Thief",
+            p: 3
+        }],
+    specialty: ["dragon", "iron", "rune", "shadow"],
+    title: {
+        by__profType: {
+            Hunter: {
+                by__level__range: {
+                    _1__7: "",
+                    _8__10: ["{specialty}master", "Beastmaster", "Guildmaster", "Huntmaster"],
+                }
+            },
+            Knight: {
+                by__level__range: {
+                    _1: "Squire",
+                    _2__4: "Knight",
+                    _5__7: "{specialty} Commander",
+                    _8__10: "{specialty} Captain"
+                }
+            },
+            Mage: {
+                by__level__range: {
+                    _1__3: "Apprentice",
+                    _4__8: ["Magus", "Professor"],
+                    _9__10: "Archmagus"
+                }
+            },
+            Priest: {
+                by__level__range: {
+                    _1__3: ["Deacon", "Druid", "Preacher", "Shaman"],
+                    _4__6: ["Abbot", "Archpriest", "Druid", "Shaman"],
+                    _7__8: ["{specialty}-speaker", "Bishop", "Elder"],
+                    _9: ["{specialty}-speaker", "Archbishop", "Archdruid"],
+                    _10: ["{specialty}-speaker", "Cardinal", "Archdruid"]
+                }
+            },
+            Thief: {
+                by__level__range: {
+                    _1__7: "",
+                    _8__10: ["{specialtymaster}", "Guildmaster"]
+                }
+            },
+            default: ""
+        }
+    },
+    weapon: {
+        by__profType: {
+            Hunter__Thief: {
+                by__level__range: {
+                    _1__5: ["bow", "crossbow", "dagger"],
+                    _6__10: [
+                        "bow of {magic}",
+                        "crossbow of {magic}",
+                        "dagger of {magic}"
+                    ]
+                }
+            },
+            Knight: {
+                by__level__range: {
+                    _1__5: ["sword", "flail", "axe"],
+                    _6__10: [
+                        "sword of {magic}",
+                        "flail of {magic}",
+                        "axe of {magic}"
+                    ]
+                }
+            },
+            Mage__Priest: {
+                by__level__range: {
+                    _1__5: ["staff", "wand"],
+                    _6__10: [
+                        "staff of {magic}",
+                        "wand of {magic}"
+                    ]
+                }
+            }
+        }
+    },
 };
 
