@@ -5,7 +5,7 @@ const fields = ["name", "alias", "superpower", "originOfPowers", "powerLevel", "
 /* Randomizer call */
 
 function randomize() {
-    new Randomizer(data, fields).randomize("randomizer-target");
+    new Randomizer(data, fields).randomize(0, "randomizer-target");
 }
 
 /* Engine animation */
