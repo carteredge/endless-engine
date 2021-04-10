@@ -207,7 +207,7 @@ ul {
     background-color: transparent;
     border: 0 none transparent;
     color: #c8ab37;
-    font-size: 0.8em;
+    font-size: 0.9em;
     font-weight: bold;
     white-space: wrap;
 }
@@ -246,9 +246,9 @@ ul {
 
 .header-content {
     align-items: center;
-    /* border-bottom: 16px solid #224466; */
     display: flex;
     flex-direction: column;
+    font-family: Garmond, serif;
     justify-content: flex-end;
     font-weight: bold;
     margin: 0 auto;
@@ -258,7 +258,7 @@ ul {
 
 .header-content h1 {
     font-weight: bold;
-    font-size: 2.4rem;
+    font-size: 3rem;
     margin-bottom: 0.2rem;
 }
 
@@ -318,7 +318,6 @@ small, .small {
     }
 
     .header-content {
-        align-items: flex-end;
         flex-direction: row;
         justify-content: flex-start;
     }
