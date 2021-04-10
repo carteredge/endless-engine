@@ -359,7 +359,7 @@ small, .small {
 }
 
 @media only screen and (min-width: 1200px) {
-    toc.box {
+    .toc-box {
         display: inline-flex;
     }
 
