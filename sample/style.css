@@ -16,6 +16,11 @@ button {
     margin: 1rem;
 }
 
+button:focus, button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 2pt 2pt blue;
+}
+
 footer {
     border-top: 1px solid darkgray;
     display: flex;
