@@ -353,8 +353,8 @@ There will instead be a much higher probability of returning a 10 than a 1.
 
 The third number provided here is a weighting variable, where higher values will create a more drastic exponential distribution with much more common results of the first number and rarer results of the second, while a lower weight will make the exponential distribution more even.
 
-> **Behind the Scenes:** Given the input form `exp_range: [A, B, k]`, the Endless Engine uses a slight variation on the equation: 
-> `(B - A) / ((1 - 2 ^ -k) (2 ^ (k - 1))) * (2 ^ (k * random - 1) - 0.5 + A
+> **Behind the Scenes:** Given the input form `exp_range: [A, B, k]`, the Endless Engine uses a slight variation on the equation:  
+> `(B - A) / ((1 - 2 ^ -k) (2 ^ (k - 1))) * (2 ^ (k * random - 1) - 0.5 + A`
 
 ### <a name="format">The `format` Property</a>
 
