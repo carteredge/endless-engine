@@ -49,7 +49,13 @@ To get the Endless Engine running, you need a little knowledge of HTML and JS da
 
 ### <a name="init">Initialization</a>
 
-To use the Endless Engine in your own Code, you need to first include the Endless Engine JS. Currently, the easiest way to do so is to download the JavaScript to your project folder and add `<script src="endless-engine.js"></script>` to your HTML file.
+To use the Endless Engine in your own Code, you need to first include the Endless Engine JS. The easiest way to add the Endless Engine to your own code is by adding the script tag:
+```html
+<script src="https://cdn.jsdelivr.net/gh/carteredge/endless-engine@main/endless-engine.js"></script>
+```
+
+(If you want to create an Endless Engine randomizer that runs entirely offline, download the [Endless Engine JavaScript](https://raw.githubusercontent.com/carteredge/endless-engine/main/endless-engine.js) to your project folder and add `<script src="endless-engine.js"></script>` to your HTML file.)
+
 Once this is accomplished, you can call the `Randomizer` class from your code:
 
 ```javascript

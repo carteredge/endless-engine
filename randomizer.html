@@ -97,7 +97,16 @@
             <h2>Using the Endless Engine in Your Own Code: The <code>Randomizer</code> Class</h2>
             <a name="init"><h3>Initialization</h3></a>
             <p>
-                To use the Endless Engine in your own Code, you need to first include the Endless Engine JS. Currently, the easiest way to do so is to download the JavaScript to your project folder and add <code>&lt;script src="endless-engine.js"&gt;&lt;/script&gt;</code> to your HTML file. <!--(In the relatively near future, I hope to add Endless Engine CDN and NPM distributions.)-->
+                To use the Endless Engine in your own Code, you need to first include the Endless Engine JS. The easiest way to add the Endless Engine to your own code is by adding the script tag:
+            </p>
+            <div class="code-block">
+                <code>&lt;script src="https://cdn.jsdelivr.net/gh/carteredge/endless-engine@main/endless-engine.js"&gt;&lt;/script&gt;</code>
+            </div>
+            <p>
+                (If you want to create an Endless Engine randomizer that runs entirely offline, download the <a href="https://raw.githubusercontent.com/carteredge/endless-engine/main/endless-engine.js">Endless Engine JavaScript</a> to your project folder and add <code>&lt;script src="endless-engine.js"&gt;&lt;/script&gt;</code> to your HTML file.)
+            </p>
+            <!--(In the relatively near future, I hope to add an Endless Engine NPM distribution.)-->
+            <p>
                 Once this is accomplished, you can call the <code>Randomizer</code> class from your code:
             </p>
             <div class="code-block">
