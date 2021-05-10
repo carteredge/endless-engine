@@ -434,12 +434,13 @@ level: {
 
             <aside>
                 <strong>Behind the Scenes:</strong> Given the input form <code>exp_range: [A, B, k]</code>, the Endless Engine uses a slight variation on the equation:
-                <div class="math-block">
+                <div class="math-block" aria-hidden="true">
                 <div class="frac">
                     <div class="num">(B - A)</div>
                     <div class="den">(1 - 2 <sup>-k</sup>) (2 <sup>(k - 1)</sup>)</div>
                 </div> &times; (2 <sup>k &times; Math.random() - 1</sup> - 0.5) + A
                 </div>
+                <code class="sr-only">(B - A) / ((1 - 2 ^ -k) (2 ^ (k - 1))) * (2 ^ (k * random - 1) - 0.5 + A</code>
             </aside>
 
             <a name="format"><h3>The <code>format</code> Property</h3></a>
