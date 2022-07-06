@@ -9,11 +9,16 @@ body {
 }
 
 button {
+    border: 2px solid gray;
     border-radius: 1rem;
     font-weight: bold;
     font-size: 1.5rem;
     height: 3rem;
     margin: 1rem;
+}
+
+button:hover {
+    opacity: 0.8;
 }
 
 button:focus, button:focus-visible {
@@ -114,6 +119,39 @@ li > div {
 
 li > *:first-child {
     flex: 1;
+}
+
+.lock-button {
+    border: 0 none transparent;
+    margin: 0;
+    opacity: 0.5;
+    padding: 0;
+    width: 48px;
+}
+
+.lock-button:hover {
+    border: 2px solid gray;
+    opacity: 1;
+}
+
+.lock-button .lock-icon {
+    display: none;
+}
+
+.lock-button .unlock-icon {
+    display: inline;
+}
+
+.lock-button.locked .lock-icon {
+    display: inline;
+}
+
+.lock-button.locked .unlock-icon {
+    display: none;
+}
+
+.lock-icon, .unlock-icon {
+    max-height: 2rem;
 }
 
 small {

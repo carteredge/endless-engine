@@ -1,11 +1,13 @@
 /* Randomizer Data */
 
-const fields = ["name", "profession", "level", "weapon", "armor"];
+const fields = ["name", "profession", "level", "weapon", "armor", "inventory", "spells"];
 
+var randomizer;
 /* Randomizer call */
 
 function randomize() {
-    new Randomizer(data, fields).randomize(0, "randomizer-target");
+    randomizer.randomize(0, "randomizer-target");
+    // window.location.search = randomizer.generateQuery();
 }
 
 /* Engine animation */
@@ -38,3 +40,8 @@ function engineClick() {
         theEngine.dataset.timeout = setTimeout(stopEngineAnimation, 12000);
     }
 }
+
+window.addEventListener("load", () => {
+    randomizer = new Randomizer(data, fields, {showLockButtons: false});
+    randomizer.processQuery(0, "randomizer-target");
+});
