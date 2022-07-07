@@ -28,10 +28,71 @@ class Randomizer {
         return vMax > vMin ? Math.floor(roughResult) : Math.ceil(roughResult);
     }
 
+    static randomizeFromTagTree(dataSet, options)  {
+        dataSet = dataSet;
+        let keepGoing;
+        const randomizedTreeData = [];
+        do {
+            const event = Randomizer.randomNode(randomizedTreeData, dataSet)
+            event &&
+                Object.keys(event).length &&
+                randomizedTreeData.push(event);
+            while (randomizedTreeData[randomizedTreeData.length - 1].next) {
+                const outcomeEvent = Randomizer.randomNode(randomizedTreeData, randomizedTreeData[randomizedTreeData.length - 1].next);
+                if (!outcomeEvent || !Object.keys(outcomeEvent).length)
+                    break;
+                randomizedTreeData.push(outcomeEvent);
+            }
+            keepGoing = options?.count ? 
+                randomizedTreeData.length < options.count
+                : options?.p ?
+                    Math.random() <= options.p
+                    : false;
+        } while (keepGoing);
+    
+        // for (let node of randomizedTreeData) {
+        //     let prevString;
+        //     let value = node.value;
+        //     do {
+        //         prevString = value;
+        //         value = value.replace(/\{(\w+)\}/g, (m, g) => 
+        //             Randomizer.randElem(nodeData[g]));
+        //     } while (value != prevString);
+        //     node.value = value;
+        // }
+    
+        return randomizedTreeData; // .map(n => this.randomize(n));
+    }
+
     static randInt(n, m) {
         return isNaN(m) ? Math.floor(Math.random() * n) : Randomizer.randInt(m - n + 1) + n;
     }
 
+    static randomNode(randomizedData, dataSet) {
+        const tags = randomizedData.filter(n => n.tags)
+            .reduce((total, node) => {
+                Array.isArray(node.tags) ?
+                total.push(...node.tags) :
+                total.push(node.tags);
+                return total;
+            }, []);
+        return {...Randomizer.randElem(
+            dataSet.filter(node => {
+                const meetsRequirements = node.requiredTags?.length ?
+                    Array.isArray(node.requiredTags) ?
+                        node.requiredTags.every(n => tags.includes(n)) :
+                        tags.includes(node.requiredTags) :
+                    true;
+                const restricted = node.restrictedTags?.length ?
+                    Array.isArray(node.restrictedTags) ?
+                        node.restrictedTags.some(n => tags.includes(n)) :
+                        tags.includes(restrictedTags) :
+                    false;
+                return meetsRequirements && !restricted;
+            }
+        ))};
+    }
+    
     static randNorm(nMin, nMax) {
         let n = nMin - 1;
         const weight = nMax - nMin / 6;
@@ -474,6 +535,15 @@ class RandomizerField {
                 return this.getByFieldRange(dataSet, byField.replace(/__range$/, ""), dataIn);
             return this.getByFieldValue(dataSet, byField, dataIn);
         }
+
+        if (dataSet.tree)
+            return Randomizer.randomizeFromTagTree(
+                dataSet.tree,
+                {
+                    count: dataSet.count,
+                    p: dataSet.p
+                }
+            );
 
         if (dataSet === data && field === undefined)
             throw field === undefined ? "Data error. Could not randomize." : `Data error on field: "${field}". Could not randomize.`;
