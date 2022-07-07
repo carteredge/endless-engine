@@ -27,8 +27,8 @@ const data = {
 
 var randomizer;
 window.onload = ()=>{
-    randomizer = new Randomizer(data);
-    randomizer.randomize(["~"], "ee-target");
+    randomizer = new Randomizer(data, ["~"]);
+    randomizer.randomize(0, "ee-target");
 };
 
 /* Header logo animation */
