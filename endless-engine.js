@@ -50,17 +50,6 @@ class Randomizer {
                     : false;
         } while (keepGoing);
     
-        // for (let node of randomizedTreeData) {
-        //     let prevString;
-        //     let value = node.value;
-        //     do {
-        //         prevString = value;
-        //         value = value.replace(/\{(\w+)\}/g, (m, g) => 
-        //             Randomizer.randElem(nodeData[g]));
-        //     } while (value != prevString);
-        //     node.value = value;
-        // }
-    
         return randomizedTreeData; // .map(n => this.randomize(n));
     }
 
@@ -124,7 +113,7 @@ class Randomizer {
         this.rawValues = {};
         this.options = options || {
             showBlankElements: false,
-            showLockButtons: false,
+            showLockButtons: true,
         };
     }
 
@@ -217,6 +206,14 @@ class RandomizerField {
         this._isLocked = v;
     }
 
+    get options() {
+        return this._options ?? this.parent?.options;
+    }
+
+    set options(v) {
+        this._options = v;
+    }
+
     get randomizerFields() {
         return this.parent.randomizerFields;
      }
@@ -276,7 +273,7 @@ class RandomizerField {
         const listItem = document.createElement("li");
         listItem.className = "row";
         const keyField = document.createElement("strong");
-        keyField.innerText = this.formatText(this.field); // key
+        keyField.innerText = this.formatText(this.field, options.capitalize); // key
         listItem.append(keyField);
         const textField = document.createElement("div");
         listItem.append(textField); // text
@@ -361,23 +358,24 @@ class RandomizerField {
         return dataSubset && this.randomizeValue(dataSubset);
     }
 
-    getText(item) {
+    getText(item, options) {
         item = item === undefined ? 
             this._text === undefined ? 
                 this.rawValue : this._text
                     : item;
+        options = options ?? item?.options ?? this.options;
         if (item === undefined)
             return;
         if (typeof item === "string")
-            return this.formatText(this.replaceFields(item));
+            return this.formatText(this.replaceFields(item, options), options.capitalize);
         if (item?.text !== undefined)
-            return this.getText(item.text);
+            return this.getText(item.text, options);
         if (item?.value !== undefined)
-            return this.getText(item.value);
+            return this.getText(item.value, options);
         if (item?.format !== undefined)
-            return this.getText(item.format);
+            return this.getText(item.format, options);
         if (Array.isArray(item))
-            return item.map(i => this.getText(i));
+            return item.map(i => this.getText(i, options));
     }
     
     getWithTree(tree, data) {
@@ -428,7 +426,7 @@ class RandomizerField {
     randomizeValue(dataIn, field) {
         const dataSet = field ? dataIn[field] : 
             dataIn === undefined ? this.dataSet : dataIn;
-
+        this.options = field ? dataIn[field]?.options ?? this.options : this.options;
         if (!dataSet)
             return "";
 
@@ -436,7 +434,7 @@ class RandomizerField {
             return dataSet;
 
         if (dataSet.count && this.idx === undefined) {
-            const count = this.replaceFields(this.randomizeValue(dataSet.count));
+            const count = this.replaceFields(this.randomizeValue(dataSet.count), this.options);
             if (!isNaN(count)) {
                 this.subFields = [];
                 let newDataSet = {};
@@ -507,7 +505,7 @@ class RandomizerField {
         
         if (Array.isArray(dataSet) && !this.subFields?.length) {
             if (dataSet.some(e => e?.p && isNaN(e.p))) {
-                const probs = dataSet.map(e => Number(this.replaceFields(this.randomizeValue(e?.p))));
+                const probs = dataSet.map(e => Number(this.replaceFields(this.randomizeValue(e?.p), this.options)));
                 return this.randomizeValue(Randomizer.weightedRandElem(dataSet, probs));
             }
             if (this.unique) {
@@ -540,8 +538,8 @@ class RandomizerField {
             return Randomizer.randomizeFromTagTree(
                 dataSet.tree,
                 {
-                    n: this.randomizeValue(dataSet.n),
-                    p: this.randomizeValue(dataSet.p)
+                    n: dataSet.n ? this.randomizeValue(dataSet.n) : 0,
+                    p: dataSet.p ? this.randomizeValue(dataSet.p) : 0
                 }
             );
 
@@ -550,27 +548,28 @@ class RandomizerField {
         return dataSet;
     }
 
-    replaceFields(templateString) {
+    replaceFields(templateString, options) {
         let prevString;
+        const forceNew = options?.forceNew ?? this.forceNew ?? false;
         templateString = templateString.toString();
         do {
             prevString = templateString;
             templateString = templateString.replace(/\{(\w+)\}/g, (m, g) => {
                 if (g.includes("__")) {
                     const tree = g.split("__");
-                    if (this.forceNew || !this.randomizerFields[tree[0]])
+                    if (forceNew || !this.randomizerFields[tree[0]])
                         this.randomizerFields[tree[0]] = new RandomizerField(tree[0], this);
                     this.randomizerFields[tree[0]].lockedBy.push(this);
-                    if (this.forceNew || !this.randomizedData[tree[0]]) {
-                        this.randomizedData[tree[0]] = this.randomizerFields[tree[0]].randomize(this.forceNew);
+                    if (forceNew || !this.randomizedData[tree[0]]) {
+                        this.randomizedData[tree[0]] = this.randomizerFields[tree[0]].randomize(forceNew);
                     }
                     return this.formatText(this.getWithTree(g, this.randomizedData), false); 
                 }
-                if (this.forceNew || !this.randomizerFields[g])
+                if (forceNew || !this.randomizerFields[g])
                     this.randomizerFields[g] = new RandomizerField(g, this);
                 this.randomizerFields[g].lockedBy.push(this);
-                if (this.forceNew || !this.randomizedData[g])
-                    this.randomizedData[g] = this.randomizerFields[g].randomize(this.forceNew);
+                if (forceNew || !this.randomizedData[g])
+                    this.randomizedData[g] = this.randomizerFields[g].randomize(forceNew);
                 return this.formatText(this.randomizedData[g], false);
             });
         } while (templateString != prevString);
