@@ -27,7 +27,7 @@ const data = {
 
 var randomizer;
 window.onload = ()=>{
-    randomizer = new Randomizer(data, ["~"]);
+    randomizer = new Randomizer(data, ["~"], {showLockButton: false});
     randomizer.randomize(0, "ee-target");
 };
 

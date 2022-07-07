@@ -124,7 +124,7 @@ class Randomizer {
         this.rawValues = {};
         this.options = options || {
             showBlankElements: false,
-            showLockButtons: true,
+            showLockButtons: false,
         };
     }
 
