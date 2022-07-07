@@ -43,8 +43,8 @@ class Randomizer {
                     break;
                 randomizedTreeData.push(outcomeEvent);
             }
-            keepGoing = options?.count ? 
-                randomizedTreeData.length < options.count
+            keepGoing = options?.n ? 
+                randomizedTreeData.length < options.n
                 : options?.p ?
                     Math.random() <= options.p
                     : false;
@@ -540,8 +540,8 @@ class RandomizerField {
             return Randomizer.randomizeFromTagTree(
                 dataSet.tree,
                 {
-                    count: dataSet.count,
-                    p: dataSet.p
+                    n: this.randomizeValue(dataSet.n),
+                    p: this.randomizeValue(dataSet.p)
                 }
             );
 
